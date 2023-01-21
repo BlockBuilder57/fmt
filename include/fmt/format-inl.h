@@ -28,13 +28,18 @@
 
 #include "format.h"
 
+namespace bf2mods {
+  void fmt_assert_failed(const char* file, int line, const char* message);
+}
+
 FMT_BEGIN_NAMESPACE
 namespace detail {
 
 FMT_FUNC void assert_fail(const char* file, int line, const char* message) {
   // Use unchecked std::fprintf to avoid triggering another assertion when
   // writing to stderr fails
-  std::fprintf(stderr, "%s:%d: assertion failed: %s", file, line, message);
+  //std::fprintf(stderr, "%s:%d: assertion failed: %s", file, line, message);
+  bf2mods::fmt_assert_failed(file, line, message);
   // Chosen instead of std::abort to satisfy Clang in CUDA mode during device
   // code pass.
   std::terminate();
